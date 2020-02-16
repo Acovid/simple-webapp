@@ -1,0 +1,33 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: simple-webapp-docker
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: "simple-webapp-docker:latest"
+  source:
+    git:
+      ref: master
+      uri: "https://gitlab.com/rjk00/simple-webapp"
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: "python:3.6"
+        namespace: openshift
+    type: Source
+  triggers:
+    - imageChange:
+        lastTriggeredImageID: >-
+          172.30.1.1:5000/openshift/python@sha256:ab130eac3be22fc93225918fa59ad73f263840fb4fbfd4f70327495c6106be36
+      type: ImageChange
+    - type: ConfigChange
+    - generic:
+        secret: 0de3d1782053ac32
+      type: Generic
+    - github:
+        secret: 8dab0de37641daa5
+      type: GitHub
