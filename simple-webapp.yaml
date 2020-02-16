@@ -10,15 +10,11 @@ spec:
   source:
     git:
       ref: master
-      uri: "https://gitlab.com/rjk00/simple-webapp"
+      uri: "https://github.com/Acovid/simple-webapp"
     type: Git
   strategy:
-    sourceStrategy:
-      from:
-        kind: ImageStreamTag
-        name: "python:3.6"
-        namespace: openshift
-    type: Source
+    dockerStrategy:
+    type: Docker
   triggers:
     - imageChange:
         lastTriggeredImageID: >-
